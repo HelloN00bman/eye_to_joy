@@ -1,0 +1,98 @@
+import csv
+import numpy as np
+import torch
+import os.path
+
+def load_csv(path, header = True):
+	header = []
+	data = []
+	with open(path, 'rb') as csvfile:
+		reader = csv.reader(csvfile)
+		for i, row in enumerate(reader):
+			if header and not i:
+				header = [row]
+			else:
+				data += [row]
+	header = np.array(header)
+	data = np.array(data)
+	return header, data
+
+def load_numpy(path, index):
+	files = os.listdir(path)
+	files = sort_file_list(files, ext='.dat.npy')
+	file = files[index]
+	return np.load(file)
+
+def load_tensor(path, index):
+	files = os.listdir(path)
+	files = sort_file_list(files, ext='.t7')
+	file = files[index]
+	return torch.load(os.path.join(path, file))
+
+def sort_file_list(ls, ext='.txt'):
+	nums = [int(l.split('_')[1][:-len(ext)]) for l in ls]
+	return np.array([file for _,file in sorted(zip(nums, ls))])
+
+def test_train_split(dataset, train_pct, valid=False, **kwargs):
+	dset = dataset(**kwargs)
+	trainset = dataset(**kwargs)
+	testset = dataset(**kwargs)
+	validset = datset(**kwargs)
+
+	total = len(dset)
+	inds = np.random.permuation(np.arange(total))
+	train_inds = inds[:train_pct * total]
+	test_inds = inds[len(train_inds):]
+	if valid:
+		valid_inds = train_inds[:valid * len(train_inds)]
+		train_inds = train_inds[len(valid_inds):]
+		validset.set_inds(valid_inds)
+	trainset.set_inds(train_inds)
+	testset.set_inds(test_inds)	
+	return dset, trainset, validset, testset
+
+def get_trials(filename):
+	trials = []
+	types = []
+	with open(filename) as f:
+		lines = f.readlines()
+		for line in lines:
+			tmp = line.strip().split('.')
+			trials+=[os.path.join(tmp[0].split("'")[-1], tmp[1].split(' ')[0])]
+			types+=[tmp[1].split(' ')[1][1]]
+	trials = np.array(trials)
+	types = np.array(trials)
+	return trials, types
+
+def csv_to_tensor_save(good_gaze, data_path, save_path, csv_name, header=True, inds=[0,1,4,5]):
+	for trial in good_gaze:
+		filename = os.path.join(data_path, trial, csv_name)
+		save_dir = os.path.join(save_path, trial)
+		os.system('mkdir -p ' + save_dir)
+
+        csv_header = []
+        csv_data = []
+        with open(filename, 'rb') as f:
+            reader = csv.reader(f)
+            for i,line in enumerate(reader):
+                if i == 0 and header:
+                    csv_header += [line]
+                else:
+                    csv_data += [line]
+            csv_header = np.array(csv_header)
+            csv_data = np.array(csv_data)
+
+            for i,data in enumerate(csv_data):
+		    tensor = torch.Tensor(1, len(inds))
+		    for j,ind	in enumerate(inds):
+			    tensor[0, j] = csv_data[i][ind].astype('float64')
+			    
+		    save_name = os.path.join(save_dir, '{:05d}.pt7'.format(i+1))
+		    torch.save(tensor, save_name)
+
+
+def save_inds(inds, filename):
+	pass
+
+
+

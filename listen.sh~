@@ -1,0 +1,38 @@
+#!/bin/bash
+
+REMOTEPORT=9525
+LOCALPORT=9525
+REMOTEHOST=$aeolus
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case "$key" in
+        # This is an arg value type option. Will catch -o value or --output-file value
+        -r|--remote_port)
+        shift # past the key and to the value
+        REMOTEPORT="$1"
+        ;;
+        # This is an arg value type option. Will catch -o value or --output-file value
+        -l|--local_port)
+        shift # past the key and to the value
+        LOCALPORT="$1"
+        ;;
+        # This is an arg value type option. Will catch -o value or --output-file value
+        -rh|--remote_host)
+        shift # past the key and to the value
+        REMOTEHOST="$1"
+        ;;
+        *)
+        # Do whatever you want with extra options
+        echo "Unknown option '$key'"
+        ;;
+    esac
+    # Shift after checking all the cases to get the next option
+    shift
+done
+
+echo
+echo Listening to port $REMOTEHOST:$REMOTEPORT on localhost:$LOCALPORT
+echo '(Press CTRL+C to quit)'
+
+ssh -N -4 -L :$LOCALPORT:localhost:$REMOTEPORT $REMOTEHOST
