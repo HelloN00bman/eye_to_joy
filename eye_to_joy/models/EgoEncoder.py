@@ -58,7 +58,7 @@ class EgoEncoder(nn.Module):
 		self.classifier = self._transfer_classifier(classifier, tmp_cls_state_dict)
 
 	def _make_features(self): # Could make this more general
-		in_channels = 4
+		in_channels = 3
 		layers = nn.Sequential(
 			nn.Conv2d(in_channels, 64, kernel_size=3, padding=1),
 			nn.ReLU(inplace=True),
@@ -121,7 +121,7 @@ class EgoEncoder(nn.Module):
 	def forward(self, x):
 		x = self.features(x)
 		x = x.view(x.size(0), -1)
-		x = self.classifier(x)
+		# x = self.classifier(x)
 		return x
 
 
