@@ -27,9 +27,9 @@ class GazeEncoderMS(nn.Module):
 		for key in cls_keys:
 			vals = self.classifier.state_dict()[key]
 			if 'weight' in key:
-				nn.init.xavier_normal(vals)
+				nn.init.xavier_normal_(vals)
 			else:
-				nn.init.constant(vals, 0)
+				nn.init.constant_(vals, 0)
 			tmp_cls_state_dict[key] = vals
 		self.classifier.load_state_dict(tmp_cls_state_dict)
 
@@ -47,11 +47,15 @@ class GazeEncoderMS(nn.Module):
 			)
 		return layers
 
-	def forward(self, x1, x2, x3):
+	def featurize(self, x1, x2, x3):
 		x1 = self.ge1(x1)
 		x2 = self.ge2(x2)
 		x3 = self.ge3(x3)
 		x = torch.cat((x1,x2,x3), 1)
+		return x
+
+	def classify(self, x1, x2, x3):
+		x = self.featurize(x1, x2, x3)
 		x = self.classifier(x)
 		return x
 

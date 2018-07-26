@@ -18,9 +18,9 @@ class GazeEncoder(nn.Module):
 		for key in feat_keys:
 			vals = self.features.state_dict()[key]
 			if 'weight' in key:
-				nn.init.xavier_normal(vals)
+				nn.init.xavier_normal_(vals)
 			else:
-				nn.init.constant(vals, 0)
+				nn.init.constant_(vals, 0)
 			tmp_feat_state_dict[key] = vals
 		self.features.load_state_dict(tmp_feat_state_dict)
 
@@ -29,9 +29,9 @@ class GazeEncoder(nn.Module):
 		for key in cls_keys:
 			vals = self.classifier.state_dict()[key]
 			if 'weight' in key:
-				nn.init.xavier_normal(vals)
+				nn.init.xavier_normal_(vals)
 			else:
-				nn.init.constant(vals, 0)
+				nn.init.constant_(vals, 0)
 			tmp_cls_state_dict[key] = vals
 		self.classifier.load_state_dict(tmp_cls_state_dict)
 
