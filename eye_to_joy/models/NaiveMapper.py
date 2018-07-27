@@ -21,7 +21,7 @@ class NaiveMapper(nn.Module):
 		pass
 
 	def init_hidden(self, cuda):
-    	if not cuda:
+		if not cuda:
 			return (autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float()),
 				autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float()))
 		else:
