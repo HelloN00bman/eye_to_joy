@@ -20,9 +20,13 @@ class NaiveMapper(nn.Module):
 		self._make_classifier()
 		pass
 
-	def init_hidden(self):
-		return (autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float()),
+	def init_hidden(self, cuda):
+    	if not cuda:
+			return (autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float()),
 				autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float()))
+		else:
+			return (autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float().cuda()),
+				autograd.Variable(torch.zeros(2, self.minibatch, self.hidden_dim).float().cuda()))
 
 	def _make_features(self):
 		# self.ego = EgoEncoder('vgg13', True)
