@@ -15,7 +15,7 @@ class NaiveMapper(nn.Module):
 		super(NaiveMapper, self).__init__()
 		self.hidden_dim = 256
 		self.minibatch = 10
-		self.hidden = self.init_hidden()
+		# self.hidden = self.init_hidden()
 		self._make_features()
 		self._make_classifier()
 		pass
