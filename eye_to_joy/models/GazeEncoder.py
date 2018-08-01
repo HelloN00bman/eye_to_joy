@@ -66,7 +66,7 @@ class GazeEncoder(nn.Module):
 	def forward(self, x):
 		x = self.features(x)
 		print(x.shape)
-		x = x.view(-1, 64*self.w/4)
+		x = x.view(-1, 64*2)#*self.w/4)
 		x = self.classifier(x)
 		return x
 
