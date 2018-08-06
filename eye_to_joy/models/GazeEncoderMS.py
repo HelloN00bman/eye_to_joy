@@ -52,11 +52,13 @@ class GazeEncoderMS(nn.Module):
 		x2 = self.ge2(x2)
 		x3 = self.ge3(x3)
 		x = torch.cat((x1,x2,x3), 1)
-		print('featurize')
-		print(x.shape)
 		return x
 
-	def classify(self, x1, x2, x3):
+	def classify(self, features):
+		x = self.classifier(features)
+		return x
+
+	def forward(self, x1, x2, x3):
 		x = self.featurize(x1, x2, x3)
 		x = self.classifier(x)
 		return x
