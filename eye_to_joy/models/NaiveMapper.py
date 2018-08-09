@@ -48,6 +48,7 @@ class NaiveMapper(nn.Module):
 	def forward(self, x, hidden):
 		lstm_out, lstm_hidden = self.lstm(x, hidden)
 		out = self.classifier(lstm_out)
+        out = nn.functional.log_softmax(out)
 		return out, lstm_hidden
 
 		# ego_out = torch.unbind(ego.view(1, 1, -1))[0]
