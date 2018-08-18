@@ -31,8 +31,8 @@ class GazeEncoderMS(nn.Module):
 		init_w = nn.init.xavier_normal_
 		init_b = ft.partial(nn.init.constant_, val=0)
 
-		self.classifier.apply(ft.partial(weight_init, nn.Linear, init_w))
-		self.classifier.apply(ft.partial(bias_init, nn.Linear, init_b))
+		self.classifier.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
+		self.classifier.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
 
 		# cls_keys = self.classifier.state_dict().keys()
 		# tmp_cls_state_dict = dict()
