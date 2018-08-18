@@ -5,7 +5,7 @@ import functools as ft
 
 
 def weight_init(layer, genre, init_func):
-    print(layer, genre, init_func)
+	print(layer, genre, init_func)
 	if isinstance(layer, genre):
 		init_func(layer.weight)
 
