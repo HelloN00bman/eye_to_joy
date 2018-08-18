@@ -69,7 +69,7 @@ class GazeEncoder(nn.Module):
 			nn.BatchNorm1d(64),
 			nn.ReLU(inplace=True),
 			nn.Conv1d(64, 64, kernel_size=3, padding=1),
-			nn.BatchNorm1d(32),
+			nn.BatchNorm1d(64),
 			nn.ReLU(inplace=True),
 			nn.MaxPool1d(kernel_size=2, stride=2),	
 			# nn.Conv1d(64, 64, kernel_size=1, padding=0),
