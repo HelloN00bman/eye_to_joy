@@ -64,7 +64,7 @@ class NaiveMapper(nn.Module):
 		out = self.classifier(lstm_out)
 		# out = F.log_softmax(out)
 		out1 = out[:,:,:2]
-		out2 = nn.sigmoid(out[:,:,2])
+		out2 = nn.Sigmoid(out[:,:,2])
 		return out1, out2, lstm_hidden
 
 		# ego_out = torch.unbind(ego.view(1, 1, -1))[0]
