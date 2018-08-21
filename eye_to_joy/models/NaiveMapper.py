@@ -62,8 +62,10 @@ class NaiveMapper(nn.Module):
 	def forward(self, x, hidden):
 		lstm_out, lstm_hidden = self.lstm(x, hidden)
 		out = self.classifier(lstm_out)
-		out = F.log_softmax(out)
-		return out, lstm_hidden
+		# out = F.log_softmax(out)
+		out1 = out[:,:,:2]
+		out2 = nn.sigmoid(out[:,:,2])
+		return out1, out2, lstm_hidden
 
 		# ego_out = torch.unbind(ego.view(1, 1, -1))[0]
 		# print('shapes')
