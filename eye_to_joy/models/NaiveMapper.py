@@ -49,12 +49,14 @@ class NaiveMapper(nn.Module):
 		self.lstm = nn.LSTM(input_size=512*7*7 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
 
 	def _make_classifier(self):
-		num_classes = 3
+		num_classes = 257
 		layers = nn.Sequential(
-			nn.Linear(self.hidden_dim, 256),
+			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
-			# nn.Dropout(p=0.5),
-			nn.Linear(256, num_classes),
+			nn.Dropout(p=0.5),
+			nn.Linear(1024, 1024),
+			nn.ReLU(True),
+			nn.Linear(1024,3)
 			)
 		self.classifier = layers
 		return layers
@@ -63,8 +65,9 @@ class NaiveMapper(nn.Module):
 		lstm_out, lstm_hidden = self.lstm(x, hidden)
 		out = self.classifier(lstm_out)
 		# out = F.log_softmax(out)
-		out1 = out[:,:,:2]
-		out2 = nn.Sequential(nn.Sigmoid())(out[:,:,2])
+		out1 = out[:,:,:257]
+		# out2 = nn.Sequential(nn.Sigmoid())(out[:,:,2])
+		out2 = out[:,:,257]
 		return out1, out2, lstm_hidden
 
 		# ego_out = torch.unbind(ego.view(1, 1, -1))[0]

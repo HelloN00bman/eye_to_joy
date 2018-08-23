@@ -79,7 +79,7 @@ class GazeEncoder(nn.Module):
 	def _make_classifier(self):
 		num_classes = 2
 		layers = nn.Sequential(
-			nn.Linear(64*self.w/4, 1024),
+			nn.Linear(int(64*self.w/4), 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(True),
 			# nn.Dropout(p=0.5),
@@ -89,8 +89,7 @@ class GazeEncoder(nn.Module):
 
 	def forward(self, x):
 		x = self.features(x)
-		x = x.view(-1, 64*self.w/4)
-		print(x.shape)
+		x = x.view(-1, int(64*self.w/4))
 		
 		x = self.classifier(x)
 		return x
