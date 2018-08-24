@@ -12,10 +12,10 @@ WINDOWS = [12, 24, 36]
 WINDOW_SIZE = max(WINDOWS)
 
 class NaiveMapper(nn.Module):
-	def __init__(self):
+	def __init__(self, bsz=10):
 		super(NaiveMapper, self).__init__()
 		self.hidden_dim = 512
-		self.minibatch = 10
+		self.minibatch = bsz
 		self._make_features()
 		self._make_classifier()
 
