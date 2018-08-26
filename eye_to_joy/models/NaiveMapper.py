@@ -63,7 +63,7 @@ class NaiveMapper(nn.Module):
 
 	def forward(self, x, hidden):
 		lstm_out, lstm_hidden = self.lstm(x, hidden)
-		out = self.classifier(lstm_out)
+		out = self.classifier(lstm_out.view(-1, lstm_out.size(2)))
 		# out = F.log_softmax(out)
 		out1 = out[:,:,:256]
 		# out2 = nn.Sequential(nn.Sigmoid())(out[:,:,2])
