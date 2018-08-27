@@ -6,7 +6,6 @@ import torchvision.models as models
 import functools as ft
 
 def weight_init(layer, genre, init_func):
-	print(layer, genre)
 	if isinstance(layer, genre):
 		init_func(layer.weight)
 
@@ -70,5 +69,5 @@ class NaiveMapper(nn.Module):
 		lstm_out, hidden = self.features(x, self.hidden)
 		feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2)))
 		pos = feat_out[:,:256]
-		mode = out[:,256]
+		mode = feat_out[:,256]
 		return pos, mode, hidden

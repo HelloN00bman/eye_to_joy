@@ -34,17 +34,6 @@ class GazeEncoderMS(nn.Module):
 		self.classifier.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
 		self.classifier.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
 
-		# cls_keys = self.classifier.state_dict().keys()
-		# tmp_cls_state_dict = dict()
-		# for key in cls_keys:
-		# 	vals = self.classifier.state_dict()[key]
-		# 	if 'weight' in key:
-		# 		nn.init.xavier_normal_(vals)
-		# 	else:
-		# 		nn.init.constant_(vals, 0)
-		# 	tmp_cls_state_dict[key] = vals
-		# self.classifier.load_state_dict(tmp_cls_state_dict)
-
 	def _make_classifier(self):
 		num_classes = 2
 		layers = nn.Sequential(

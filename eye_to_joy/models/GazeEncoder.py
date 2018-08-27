@@ -32,28 +32,6 @@ class GazeEncoder(nn.Module):
 		self.classifier.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
 		self.classifier.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
 		
-		# feat_keys = self.features.state_dict().keys()
-		# tmp_feat_state_dict = dict()
-		# for key in feat_keys:
-		# 	vals = self.features.state_dict()[key]
-		# 	if 'weight' in key:
-		# 		nn.init.xavier_normal_(vals)
-		# 	else:
-		# 		nn.init.constant_(vals, 0)
-		# 	tmp_feat_state_dict[key] = vals
-		# self.features.load_state_dict(tmp_feat_state_dict)
-
-		# cls_keys = self.classifier.state_dict().keys()
-		# tmp_cls_state_dict = dict()
-		# for key in cls_keys:
-		# 	vals = self.classifier.state_dict()[key]
-		# 	if 'weight' in key:
-		# 		nn.init.xavier_normal_(vals)
-		# 	else:
-		# 		nn.init.constant_(vals, 0)
-		# 	tmp_cls_state_dict[key] = vals
-		# self.classifier.load_state_dict(tmp_cls_state_dict)
-
 	def _make_features(self):
 		in_channels = 2
 		layers = nn.Sequential(
