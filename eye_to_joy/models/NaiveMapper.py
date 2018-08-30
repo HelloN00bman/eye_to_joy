@@ -14,8 +14,9 @@ def bias_init(layer, genre, init_func):
 		init_func(layer.bias)
 
 class NaiveMapper(nn.Module):
-	def __init__(self, batch_size=10, hidden_size=512):
+	def __init__(self, num_classes=257, batch_size=10, hidden_size=512):
 		super(NaiveMapper, self).__init__()
+		self.num_classes = num_classes
 		self.hidden_dim = hidden_size
 		self.minibatch = batch_size
 		
@@ -54,20 +55,19 @@ class NaiveMapper(nn.Module):
 		return lstm
 
 	def _make_classifier(self):
-		num_classes = 257
 		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,num_classes)
+			nn.Linear(1024,self.num_classes)
 			)
 		return layers
 
 	def forward(self, x):
 		lstm_out, hidden = self.features(x, self.hidden)
 		feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2)))
-		pos = feat_out[:,:256]
-		mode = feat_out[:,256]
+		pos = feat_out[:,:self.num_classes]
+		mode = feat_out[:,self.num_classes]
 		return pos, mode, hidden
