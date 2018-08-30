@@ -24,6 +24,8 @@ class NaiveMapper(nn.Module):
 		
 		self.features = self._make_features()
 		self.classifier = self._make_classifier()
+		self.pos_top = self._make_pos_classifier()
+		self.mode_top = self._make_mode_classifier()
 		
 		self._init_weights_and_biases()
 
@@ -50,9 +52,17 @@ class NaiveMapper(nn.Module):
 		self.classifier.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
 		self.classifier.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
 
+		self.pos_top.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
+		self.pos_top.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
+
+		self.mode_top.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
+		self.mode_top.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
+
+
 	def _make_features(self):
 		lstm = nn.LSTM(input_size=512*7*7 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
 		return lstm
+
 
 	def _make_classifier(self):
 		layers = nn.Sequential(
@@ -65,10 +75,38 @@ class NaiveMapper(nn.Module):
 			)
 		return layers
 
+	def _make_pos_classifier(self):
+		layers = nn.Sequential(
+			nn.Linear(self.hidden_dim, 1024),
+			nn.ReLU(True),
+			nn.Dropout(p=0.5),
+			nn.Linear(1024, 1024),
+			nn.ReLU(True),
+			nn.Linear(1024,(self.num_classes-1)*10)
+			)
+		return layers
+
+	def _make_mode_classifier(self):
+		layers = nn.Sequential(
+		nn.Linear(self.hidden_dim, 1024),
+		nn.ReLU(True),
+		nn.Dropout(p=0.5),
+		nn.Linear(1024, 1024),
+		nn.ReLU(True),
+		nn.Linear(1024,1*10)
+		)
+	return layers	
+
+	# def forward(self, x):
+	# 	lstm_out, hidden = self.features(x, self.hidden)
+	# 	print(lstm_out.shape)
+	# 	feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2))).view(1000,25)
+	# 	pos = feat_out[:,:self.num_classes-1]
+	# 	mode = feat_out[:,self.num_classes-1]
+	# 	return pos, mode, hidden
+
 	def forward(self, x):
 		lstm_out, hidden = self.features(x, self.hidden)
-		print(lstm_out.shape)
-		feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2))).view(1000,25)
-		pos = feat_out[:,:self.num_classes-1]
-		mode = feat_out[:,self.num_classes-1]
+		pos = self.pos_top(lstm_out.view(-1, lstm_out.size(2))).view(-1, 24)
+		mode = self.mode_top(lstm_out.view(-1, lstm_out.size(2))).view(-1)
 		return pos, mode, hidden
