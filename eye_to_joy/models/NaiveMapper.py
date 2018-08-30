@@ -70,6 +70,6 @@ class NaiveMapper(nn.Module):
 		print(lstm_out.shape)
 		feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2)))
 		print(feat_out.shape)
-		pos = feat_out[:,:self.num_classes-1]
+		pos = feat_out.view(1000,25)[:,:self.num_classes-1]
 		mode = feat_out[:,self.num_classes-1]
 		return pos, mode, hidden
