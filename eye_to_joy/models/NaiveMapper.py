@@ -88,14 +88,14 @@ class NaiveMapper(nn.Module):
 
 	def _make_mode_classifier(self):
 		layers = nn.Sequential(
-		nn.Linear(self.hidden_dim, 1024),
-		nn.ReLU(True),
-		nn.Dropout(p=0.5),
-		nn.Linear(1024, 1024),
-		nn.ReLU(True),
-		nn.Linear(1024,1*10)
-		)
-	return layers	
+			nn.Linear(self.hidden_dim, 1024),
+			nn.ReLU(True),
+			nn.Dropout(p=0.5),
+			nn.Linear(1024, 1024),
+			nn.ReLU(True),
+			nn.Linear(1024,1*10)
+			)
+		return layers	
 
 	# def forward(self, x):
 	# 	lstm_out, hidden = self.features(x, self.hidden)
