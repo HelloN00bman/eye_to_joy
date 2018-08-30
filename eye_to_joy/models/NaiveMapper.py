@@ -61,13 +61,13 @@ class NaiveMapper(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,self.num_classes)
+			nn.Linear(1024,self.num_classes*10)
 			)
 		return layers
 
 	def forward(self, x):
 		lstm_out, hidden = self.features(x, self.hidden)
 		feat_out = self.classifier(lstm_out.view(-1, lstm_out.size(2)))
-		pos = feat_out[:,:self.num_classes]
+		pos = feat_out[:,:self.num_classes-1]
 		mode = feat_out[:,self.num_classes-1]
 		return pos, mode, hidden
