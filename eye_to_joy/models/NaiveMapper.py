@@ -61,7 +61,7 @@ class NaiveMapper(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,self.num_classes)
+			nn.Linear(1024,self.num_classes*10)
 			)
 		return layers
 
