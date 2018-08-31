@@ -105,8 +105,10 @@ class NaiveMapper(nn.Module):
 	# 	mode = feat_out[:,self.num_classes-1]
 	# 	return pos, mode, hidden
 
-	def forward(self, x):
-		lstm_out, hidden = self.features(x, self.hidden)
+	def forward(self, x, hidden=None):
+		if not hidden: 
+			hidden = self.hidden
+		lstm_out, hidden = self.features(x, hidden)
 		pos = self.pos_top(lstm_out.view(-1, lstm_out.size(2))).view(-1, 24)
 		mode = self.mode_top(lstm_out.view(-1, lstm_out.size(2))).view(-1)
 		return pos, mode, hidden
