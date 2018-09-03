@@ -68,10 +68,11 @@ class NaiveMapper(nn.Module):
 		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
-			nn.Dropout(p=0.5),
+			nn.BatchNorm1d(1024),
+			# nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,self.num_classes*10)
+			nn.Linear(1024,self.num_classes+1*10)
 			)
 		return layers
 
@@ -79,10 +80,12 @@ class NaiveMapper(nn.Module):
 		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
-			nn.Dropout(p=0.5),
+			# nn.Dropout(p=0.5),
+			nn.BatchNorm1d(1024),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,(self.num_classes-1)*10)
+			nn.BatchNorm1d(1024),
+			nn.Linear(1024,(self.num_classes)*10)
 			)
 		return layers
 
@@ -91,6 +94,8 @@ class NaiveMapper(nn.Module):
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
 			nn.Dropout(p=0.5),
+
+
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.Linear(1024,1*10)
@@ -109,6 +114,6 @@ class NaiveMapper(nn.Module):
 		if not hidden: 
 			hidden = self.hidden
 		lstm_out, hidden = self.features(x, hidden)
-		pos = self.pos_top(lstm_out.view(-1, lstm_out.size(2))).view(-1, 24)
+		pos = self.pos_top(lstm_out.view(-1, lstm_out.size(2))).view(-1, self.num_classes)
 		mode = self.mode_top(lstm_out.view(-1, lstm_out.size(2))).view(-1)
 		return pos, mode, hidden
