@@ -23,7 +23,7 @@ class NaiveMapper(nn.Module):
 		self.hidden = self.init_hidden()
 		
 		self.features = self._make_features()
-		self.classifier = self._make_classifier()
+		# self.classifier = self._make_classifier()
 		self.pos_top = self._make_pos_classifier()
 		self.mode_top = self._make_mode_classifier()
 		
@@ -94,8 +94,6 @@ class NaiveMapper(nn.Module):
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
 			nn.Dropout(p=0.5),
-
-
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.Linear(1024,1*10)
