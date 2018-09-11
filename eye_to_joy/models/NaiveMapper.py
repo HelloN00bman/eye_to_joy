@@ -30,6 +30,7 @@ class NaiveMapper(nn.Module):
 		self._init_weights_and_biases()
 
 	def init_hidden(self):
+		# CHANGE THE 10 TO A VARIABLE DUMMY
 		hidden = (
 			autograd.Variable(torch.zeros(2, 10, self.hidden_dim).float()),
 			autograd.Variable(torch.zeros(2, 10, self.hidden_dim).float())
