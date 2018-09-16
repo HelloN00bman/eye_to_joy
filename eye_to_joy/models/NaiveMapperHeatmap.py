@@ -66,7 +66,7 @@ class NaiveMapperHeatmap(nn.Module):
 
 
 	def _make_features(self):
-		lstm = nn.LSTM(input_size=512*7*7 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
+		lstm = nn.LSTM(input_size=512*14*14 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
 		return lstm
 
 
