@@ -17,14 +17,15 @@ class NaiveMapperHeatmap(nn.Module):
 	def __init__(self, num_classes=257, batch_size=10, hidden_size=512, future_length=1):
 		super(NaiveMapperHeatmap, self).__init__()
 
+		self.future_length = future_length
+
 		self.ngf = 2
 		self.sf = 2
-		self.nc = 10
+		self.nc = self.future_length
 
 		self.num_classes = num_classes
 		self.hidden_dim = hidden_size
 		self.minibatch = batch_size
-		self.future_length = future_length
 		
 		self._make_pos_classifier()
 
