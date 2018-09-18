@@ -54,6 +54,7 @@ class GazeEncoderMS(nn.Module):
 		x3 = self.ge3(x3)
 		print(x1.shape, x2.shape, x3.shape)
 		x = torch.cat((x1,x2,x3))
+		print(x.shape)
 		# x = torch.cat((x1,x2,x3), 1)
 		return x
 
