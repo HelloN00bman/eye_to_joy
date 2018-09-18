@@ -115,7 +115,7 @@ class NaiveMapperHeatmap(nn.Module):
 		self.sigmoid = nn.Sigmoid()
 
 	def _make_mode_classifier(self):
-    	print(self.future_length)
+		print(self.future_length)
 		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
