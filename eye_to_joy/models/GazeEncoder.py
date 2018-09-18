@@ -35,29 +35,28 @@ class GazeEncoder(nn.Module):
 	def _make_features(self):
 		in_channels = 2
 		layers = nn.Sequential(
-			nn.Conv1d(in_channels, 32, kernel_size=3, padding=1),
-			nn.BatchNorm1d(32),
+			nn.Conv1d(in_channels, 16, kernel_size=3),
+			nn.BatchNorm1d(16),
 			nn.ReLU(inplace=True),
-			nn.Conv1d(32, 32, kernel_size=3, padding=1),
+			nn.Conv1d(16, 32, kernel_size=1, padding=1),
 			nn.BatchNorm1d(32),
 			nn.ReLU(inplace=True),
 			nn.MaxPool1d(kernel_size=2, stride=2),
-			# nn.Conv1d(32, 32, kernel_size=1, padding=0),
-			nn.Conv1d(32, 64, kernel_size=3, padding=1),
+			nn.Conv1d(32, 64, kernel_size=3),
 			nn.BatchNorm1d(64),
 			nn.ReLU(inplace=True),
-			nn.Conv1d(64, 64, kernel_size=3, padding=1),
+			nn.Conv1d(64, 64, kernel_size=1, padding=1),
 			nn.BatchNorm1d(64),
 			nn.ReLU(inplace=True),
 			nn.MaxPool1d(kernel_size=2, stride=2),	
-			# nn.Conv1d(64, 64, kernel_size=1, padding=0),
 			)
 		return layers
 
 	def _make_classifier(self):
 		num_classes = 2
 		layers = nn.Sequential(
-			nn.Linear(int(64*self.w/4), 1024),
+			# nn.Linear(int(64*self.w/4), 1024),
+			nn.Linear(64, 1024),
 			nn.BatchNorm1d(1024),
 			nn.ReLU(True),
 			# nn.Dropout(p=0.5),
@@ -66,9 +65,10 @@ class GazeEncoder(nn.Module):
 		return layers
 
 	def forward(self, x):
-		x = self.features(x)
-		x = x.view(-1, int(64*self.w/4))
+		x = self.features(x).view(-1)
+		# x = x.view(-1, int(64*self.w/4))
+		# x = x.view(-1)
 		
-		x = self.classifier(x)
+		# x = self.classifier(x)
 		return x
 
