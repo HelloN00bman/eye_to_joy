@@ -14,7 +14,7 @@ def bias_init(layer, genre, init_func):
 		init_func(layer.bias)
 
 class NaiveMapperHeatmap(nn.Module):
-	def __init__(self, num_classes=257, batch_size=10, hidden_size=512):
+	def __init__(self, num_classes=257, batch_size=10, hidden_size=512, future_length=1):
 		super(NaiveMapperHeatmap, self).__init__()
 
 		self.ngf = 2
@@ -32,6 +32,8 @@ class NaiveMapperHeatmap(nn.Module):
 		self.features = self._make_features()
 		self.decode1, self.decode2 = self.decoder()
 		self.mode_top = self._make_mode_classifier()
+
+		self.future_length = future_length
 		
 		# self._init_weights_and_biases()
 
@@ -119,7 +121,7 @@ class NaiveMapperHeatmap(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,1*10)
+			nn.Linear(1024,1*self.future_length)
 			)
 		return layers	
 
