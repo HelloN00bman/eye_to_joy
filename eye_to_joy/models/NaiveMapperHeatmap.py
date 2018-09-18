@@ -24,6 +24,7 @@ class NaiveMapperHeatmap(nn.Module):
 		self.num_classes = num_classes
 		self.hidden_dim = hidden_size
 		self.minibatch = batch_size
+		self.future_length = future_length
 		
 		self._make_pos_classifier()
 
@@ -33,7 +34,6 @@ class NaiveMapperHeatmap(nn.Module):
 		self.decode1, self.decode2 = self.decoder()
 		self.mode_top = self._make_mode_classifier()
 
-		self.future_length = future_length
 		
 		# self._init_weights_and_biases()
 
