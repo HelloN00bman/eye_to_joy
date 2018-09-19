@@ -41,7 +41,7 @@ class GazeEncoderMS(nn.Module):
 			nn.Linear(1056, 512),
 			# nn.BatchNorm1d(512),
 			nn.ReLU(True),
-			nn.Dropout()
+			nn.Dropout(),
 			nn.Linear(512, 64),
 			# nn.BatchNorm1d(64),
 			nn.ReLU(True),
