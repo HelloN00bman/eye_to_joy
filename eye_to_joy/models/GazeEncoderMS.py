@@ -38,7 +38,7 @@ class GazeEncoderMS(nn.Module):
 		num_classes = 2
 		layers = nn.Sequential(
 			nn.Dropout(),
-			nn.Linear(1056, 512),
+			nn.Linear(5088, 512),
 			# nn.BatchNorm1d(512),
 			nn.ReLU(True),
 			nn.Dropout(),
@@ -54,7 +54,8 @@ class GazeEncoderMS(nn.Module):
 		x1 = self.ge1(x1)
 		x2 = self.ge2(x2)
 		x3 = self.ge3(x3)
-		x = torch.cat((x1,x2,x3))
+		x = torch.cat((x1,x2,x3),1)
+		print(x.shape)
 		# x = torch.cat((x1,x2,x3), 1)
 		return x
 
