@@ -38,7 +38,7 @@ class GazeEncoderMS(nn.Module):
 		num_classes = 2
 		layers = nn.Sequential(
 			nn.Dropout(),
-			nn.Linear(5088, 512),
+			nn.Linear(352, 512),
 			# nn.BatchNorm1d(512),
 			nn.ReLU(True),
 			nn.Dropout(),
