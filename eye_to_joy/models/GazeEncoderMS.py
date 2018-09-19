@@ -37,11 +37,13 @@ class GazeEncoderMS(nn.Module):
 	def _make_classifier(self):
 		num_classes = 2
 		layers = nn.Sequential(
+			nn.Dropout(),
 			nn.Linear(1056, 512),
-			nn.BatchNorm1d(512),
+			# nn.BatchNorm1d(512),
 			nn.ReLU(True),
+			nn.Dropout()
 			nn.Linear(512, 64),
-			nn.BatchNorm1d(64),
+			# nn.BatchNorm1d(64),
 			nn.ReLU(True),
 			nn.Linear(64, num_classes),
 			# nn.Tanh(),
