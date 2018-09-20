@@ -14,9 +14,10 @@ def bias_init(layer, genre, init_func):
 		init_func(layer.bias)
 
 class NaiveMapperHeatmap(nn.Module):
-	def __init__(self, num_classes=257, batch_size=10, hidden_size=512, future_length=1):
+	def __init__(self, input_size, num_classes=257, batch_size=10, hidden_size=512, future_length=1):
 		super(NaiveMapperHeatmap, self).__init__()
 
+		self.input_size = input_size
 		self.future_length = future_length
 
 		self.ngf = 2
@@ -71,7 +72,7 @@ class NaiveMapperHeatmap(nn.Module):
 	def _make_features(self):
     		
 		# lstm = nn.LSTM(input_size=512*14*14 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
-		lstm = nn.LSTM(input_size=100704, hidden_size=self.hidden_dim, num_layers=2)
+		lstm = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_dim, num_layers=2)
 		return lstm
 
 
