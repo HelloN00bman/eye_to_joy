@@ -41,8 +41,8 @@ class NaiveMapperHeatmap(nn.Module):
 
 	def init_hidden(self):
 		hidden = (
-			autograd.Variable(torch.zeros(2, 10, self.hidden_dim).float()),
-			autograd.Variable(torch.zeros(2, 10, self.hidden_dim).float())
+			autograd.Variable(torch.zeros(2, 25, self.hidden_dim).float()),
+			autograd.Variable(torch.zeros(2, 25, self.hidden_dim).float())
 		)
 		
 		hidden = [l.cuda() if torch.cuda.is_available() else l for l in hidden]
