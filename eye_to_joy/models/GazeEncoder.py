@@ -71,6 +71,7 @@ class GazeEncoder(nn.Module):
 		return layers
 
 	def forward(self, x):
+    	print(x.shape)
 		x = self.features(x).view(360, -1)
 		# x = x.view(-1, int(64*self.w/4))
 		# x = x.view(-1)
