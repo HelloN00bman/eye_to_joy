@@ -32,7 +32,7 @@ class GazeEncoder(nn.Module):
 		self.classifier.apply(ft.partial(weight_init, genre=nn.Linear, init_func=init_w))
 		self.classifier.apply(ft.partial(bias_init, genre=nn.Linear, init_func=init_b))
 		
-	def _make_features(self):
+	def _make_encoder(self):
 		in_channels = 2
 		layers = nn.Sequential(
 			nn.Conv1d(in_channels, 16, kernel_size=3),
@@ -58,6 +58,12 @@ class GazeEncoder(nn.Module):
 			)
 		return layers
 
+
+	def _make_decoder(self):
+    	layers = nn.Sequential(
+			nn.Linear(size)
+		)
+
 	def _make_classifier(self):
 		num_classes = 2
 		layers = nn.Sequential(
@@ -70,8 +76,12 @@ class GazeEncoder(nn.Module):
 			)
 		return layers
 
-	def forward(self, x):
-		x = self.features(x).view(10, -1)
+	def forward(self, x1, x2, x3):
+    	x1 = self.encoder(x1).view(10,-1)
+		x2 = self.encoder(x2).view(10,-1)
+		x3 = self.encoder(x3).view(10,-1)
+		feats = torch.cat((x1,x2,x3), 1)
+		out = self.decoder(feats)
 		# x = x.view(-1, int(64*self.w/4))
 		# x = x.view(-1)
 		

@@ -125,7 +125,7 @@ class NaiveMapperHeatmap(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,4*self.future_length) # 4* for real mode
+			nn.Linear(1024,3*self.future_length) # 4* for real mode
 			)
 		return layers	
 
