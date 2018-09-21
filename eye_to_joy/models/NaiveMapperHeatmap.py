@@ -172,5 +172,5 @@ class NaiveMapperHeatmap(nn.Module):
 		decode1_out = self.decode1(lstm_out)
 		decode1_out = decode1_out.view(-1, self.ngf*8*2, 4, 4)
 		pos = self.decode2(decode1_out)
-		mode = self.mode_top(lstm_out.view(-1, self.hidden_dim)).view(-1)
+		mode = self.mode_top(lstm_out.view(-1, self.hidden_dim)).view(-1,4)
 		return pos, mode, hidden
