@@ -112,7 +112,7 @@ class NaiveMapperHeatmap(nn.Module):
 
 		self.up5 = nn.UpsamplingNearest2d(scale_factor=self.sf)
 		self.pd5 = nn.ReplicationPad2d(1)
-		self.d6 = nn.Conv2d(self.ngf, self.nc, 3, 1)
+		self.d6 = nn.Conv2d(self.ngf, self.nc, 4, 1)
 
 		self.leakyrelu = nn.LeakyReLU(0.2)
 		self.relu = nn.ReLU()
