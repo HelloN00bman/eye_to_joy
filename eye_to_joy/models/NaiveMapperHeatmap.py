@@ -159,7 +159,7 @@ class NaiveMapperHeatmap(nn.Module):
 			self.up5,
 			self.pd5,
 			self.d6,
-			self.sigmoid
+			# self.sigmoid
 		)
 
 		return decode1, decode2
