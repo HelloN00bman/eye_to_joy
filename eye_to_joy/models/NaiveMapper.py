@@ -89,7 +89,7 @@ class NaiveMapper(nn.Module):
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.BatchNorm1d(1024),
-			nn.Linear(1024,(self.num_classes)*10)
+			nn.Linear(1024,(self.num_classes)*1)
 			)
 		return layers
 
