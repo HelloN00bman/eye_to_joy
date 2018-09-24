@@ -89,7 +89,7 @@ class NaiveMapper(nn.Module):
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.BatchNorm1d(1024),
-			nn.Linear(1024,(self.num_classes)*1)
+			nn.Linear(1024,(self.num_classes)*self.future_length)
 			)
 		return layers
 
@@ -100,7 +100,7 @@ class NaiveMapper(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,3*10)
+			nn.Linear(1024,3*self.future_length)
 			)
 		return layers	
 
