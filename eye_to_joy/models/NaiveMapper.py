@@ -70,14 +70,14 @@ class NaiveMapper(nn.Module):
 
 
 	def _make_classifier(self):
-    		layers = nn.Sequential(
+		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
 			nn.BatchNorm1d(1024),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.Linear(1024,self.num_classes+1*10)
-			)
+		)
 		return layers
 
 	def _make_pos_classifier(self):
