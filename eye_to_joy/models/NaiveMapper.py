@@ -14,8 +14,12 @@ def bias_init(layer, genre, init_func):
 		init_func(layer.bias)
 
 class NaiveMapper(nn.Module):
-	def __init__(self, num_classes=257, batch_size=10, hidden_size=512):
+	def __init__(self, input_size, num_classes=257, batch_size=10, hidden_size=512, future_length=1):
 		super(NaiveMapper, self).__init__()
+		
+		self.input_size = input_size
+		self.future_length = future_length
+
 		self.num_classes = num_classes
 		self.hidden_dim = hidden_size
 		self.minibatch = batch_size
@@ -61,16 +65,15 @@ class NaiveMapper(nn.Module):
 
 
 	def _make_features(self):
-		lstm = nn.LSTM(input_size=512*7*7 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
+		lstm = nn.LSTM(input_size=512*14*14 + 1024*3, hidden_size=self.hidden_dim, num_layers=2)
 		return lstm
 
 
 	def _make_classifier(self):
-		layers = nn.Sequential(
+    		layers = nn.Sequential(
 			nn.Linear(self.hidden_dim, 1024),
 			nn.ReLU(True),
 			nn.BatchNorm1d(1024),
-			# nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
 			nn.Linear(1024,self.num_classes+1*10)
@@ -97,7 +100,7 @@ class NaiveMapper(nn.Module):
 			nn.Dropout(p=0.5),
 			nn.Linear(1024, 1024),
 			nn.ReLU(True),
-			nn.Linear(1024,1*10)
+			nn.Linear(1024,3*10)
 			)
 		return layers	
 
@@ -113,6 +116,8 @@ class NaiveMapper(nn.Module):
 		if not hidden: 
 			hidden = self.hidden
 		lstm_out, hidden = self.features(x, hidden)
-		pos = self.pos_top(lstm_out.view(-1, lstm_out.size(2))).view(-1, self.num_classes)
-		mode = self.mode_top(lstm_out.view(-1, lstm_out.size(2))).view(-1)
+		lstm_out = lstm_out.view(-1, self.hidden_dim)
+
+		pos = self.pos_top(lstm_out).view(-1, self.num_classes)
+		mode = self.mode_toplstm_out).view(-1, 3)
 		return pos, mode, hidden

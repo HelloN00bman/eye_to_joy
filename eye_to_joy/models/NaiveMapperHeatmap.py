@@ -168,7 +168,9 @@ class NaiveMapperHeatmap(nn.Module):
 		if not hidden: 
 			hidden = self.hidden
 		lstm_out, hidden = self.features(x, hidden)
+		
 		lstm_out = lstm_out.view(-1, self.hidden_dim)
+
 		decode1_out = self.decode1(lstm_out)
 		decode1_out = decode1_out.view(-1, self.ngf*8*2, 4, 4)
 		pos = self.decode2(decode1_out)
