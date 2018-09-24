@@ -119,5 +119,5 @@ class NaiveMapper(nn.Module):
 		lstm_out = lstm_out.view(-1, self.hidden_dim)
 
 		pos = self.pos_top(lstm_out).view(-1, self.num_classes)
-		mode = self.mode_toplstm_out).view(-1, 3)
+		mode = self.mode_top(lstm_out).view(-1, 3)
 		return pos, mode, hidden
